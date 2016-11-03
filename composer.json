@@ -1,0 +1,19 @@
+{
+  "name": "jmwri/amazon-wishlist",
+  "description": "A web scraper to get the contents of Amazon wishlists.",
+  "authors": [
+    {
+      "name": "Jim Wright",
+      "email": "jmwri93@gmail.com"
+    }
+  ],
+  "require": {
+    "phpunit/phpunit": "*",
+    "electrolinux/phpquery": "^0.9.6"
+  },
+  "autoload": {
+    "psr-4": {
+      "JmWri\\AmazonWishlist\\": "src/"
+    }
+  }
+}
