@@ -41,12 +41,10 @@ Amazon Wishlist uses [phpQuery](http://code.google.com/p/phpquery/) (server-side
 
 # Getting Started
 
-To get started, you need to create an instance of `AmazonWistlist`. The minimum required parameters are `$id` and `$tld`. These will default to my wishlist details if you forget to change them.
+To get started, you need to create an instance of `AmazonWistlist`. The minimum required parameters are `$id` and `$tld`. There is more information on all parameters below.
 
 ## Amazon ID
 You can find your Amazon ID by navigating to your wishlist. You will see a URL similar to `https://www.amazon.co.uk/gp/registry/wishlist/2EZ944B2S8C5Q/ref=cm_wl_list_o_0?`. My Amazon ID from that URL is `2EZ944B2S8C5Q` so you can grab yours from there.
-
-If unset, the Amazon ID will default to mine.
 
 ## Amazon Country
 The `tld` parameter is used to target the right Amazon region. For example, the UK website is `www.amazon.co.uk` so the UK TLD is `.co.uk`.

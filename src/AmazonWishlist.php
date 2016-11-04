@@ -48,7 +48,7 @@ class AmazonWishlist
      * @param null|string $affiliateTag
      */
     public function __construct(
-        $id = '2EZ944B2S8C5Q',
+        $id,
         $tld = '.co.uk',
         $reveal = 'unpurchased',
         $sort = 'date',
