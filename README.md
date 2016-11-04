@@ -5,6 +5,9 @@
 [![Latest Stable Version](https://poser.pugx.org/jmwri/amazon-wishlist/v/stable.svg)](https://packagist.org/packages/jmwri/amazon-wishlist)
 [![Latest Unstable Version](https://poser.pugx.org/jmwri/amazon-wishlist/v/unstable.svg)](https://packagist.org/packages/jmwri/amazon-wishlist)
 [![License](https://poser.pugx.org/jmwri/amazon-wishlist/license.svg)](https://packagist.org/packages/jmwri/amazon-wishlist)
+[![Code Climate](https://codeclimate.com/github/jmwri/amazon-wishlist/badges/gpa.svg)](https://codeclimate.com/github/jmwri/amazon-wishlist)
+[![Test Coverage](https://codeclimate.com/github/jmwri/amazon-wishlist/badges/coverage.svg)](https://codeclimate.com/github/jmwri/amazon-wishlist/coverage)
+[![Issue Count](https://codeclimate.com/github/jmwri/amazon-wishlist/badges/issue_count.svg)](https://codeclimate.com/github/jmwri/amazon-wishlist)
 
 **https://github.com/jmwri/amazon-wishlist**
 

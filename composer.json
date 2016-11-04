@@ -15,7 +15,8 @@
     "docs": "https://github.com/jmwri/amazon-wishlist/blob/master/README.md"
   },
   "require-dev": {
-    "phpunit/phpunit": "*"
+    "phpunit/phpunit": "*",
+    "codeclimate/php-test-reporter": "dev-master"
   },
   "require": {
     "electrolinux/phpquery": "^0.9.6"
