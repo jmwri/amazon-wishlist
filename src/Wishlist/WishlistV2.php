@@ -127,7 +127,7 @@ class WishlistV2 extends BaseWishlist
      */
     public function getPageCount()
     {
-        return parent::getPageCount(count(pq('#wishlistPagination li[data-action="pag-trigger"]')));
+        return parent::checkPageCount(count(pq('#wishlistPagination li[data-action="pag-trigger"]')));
     }
 
 }

@@ -100,7 +100,7 @@ class WishlistV1 extends BaseWishlist
      */
     public function getPageCount()
     {
-        return parent::getPageCount(count(pq('.pagDiv .pagPage')));
+        return parent::checkPageCount(count(pq('.pagDiv .pagPage')));
     }
 
 }

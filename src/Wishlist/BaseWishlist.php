@@ -45,7 +45,7 @@ abstract class BaseWishlist
      *
      * @return int
      */
-    protected function getPageCount($count = 0)
+    protected function checkPageCount($count = 0)
     {
         return $count > 0 ? $count : 1;
     }
