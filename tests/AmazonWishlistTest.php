@@ -21,8 +21,8 @@ class AmazonWishlistTest extends BaseTest
     public function testGetJson()
     {
         $wishlist = new AmazonWishlist();
-        $wishlistArray = $wishlist->getJson();
-        $this->assertTrue(is_string($wishlistArray));
+        $wishlistJson = $wishlist->getJson();
+        $this->assertTrue(is_string($wishlistJson));
     }
 
 }
