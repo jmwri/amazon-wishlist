@@ -3,7 +3,7 @@
 namespace JmWri\AmazonWishlist\Wishlist;
 
 use JmWri\AmazonWishlist\AmazonWishlist;
-use JmWri\AmazonWishlist\UtilTrait;
+use JmWri\AmazonWishlist\PhpQueryTrait;
 use JmWri\AmazonWishlist\WishlistItem;
 
 /**
@@ -13,7 +13,7 @@ use JmWri\AmazonWishlist\WishlistItem;
 abstract class BaseWishlist
 {
 
-    use UtilTrait;
+    use PhpQueryTrait;
 
     /**
      * @var AmazonWishlist

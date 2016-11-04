@@ -11,7 +11,7 @@ use JmWri\AmazonWishlist\Wishlist\WishlistV2;
  */
 class AmazonWishlist
 {
-    use UtilTrait;
+    use PhpQueryTrait;
 
     /**
      * @var string $id

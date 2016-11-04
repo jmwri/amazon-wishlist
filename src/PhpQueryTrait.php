@@ -6,10 +6,10 @@ use phpQuery;
 use phpQueryObject;
 
 /**
- * Class UtilTrait
+ * Class PhpQueryTrait
  * @package JmWri\AmazonWishlist
  */
-trait UtilTrait
+trait PhpQueryTrait
 {
 
     /**
