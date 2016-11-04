@@ -63,10 +63,21 @@ class AmazonWishlist
 
     /**
      * @param string $id
+     *
+     * @return bool
+     * @throws \InvalidArgumentException
      */
     public function setId($id)
     {
+        if (! is_string($id)) {
+            throw new \InvalidArgumentException('ID is not a string');
+        }
+        if (! strlen($id)) {
+            throw new \InvalidArgumentException('ID is empty');
+        }
+
         $this->id = $id;
+        return true;
     }
 
     /**
@@ -79,10 +90,33 @@ class AmazonWishlist
 
     /**
      * @param string $amazonTld
+     *
+     * @return bool
+     * @throws \InvalidArgumentException
      */
     public function setAmazonTld($amazonTld)
     {
+        if (! is_string($amazonTld)) {
+            throw new \InvalidArgumentException('TLD is not a string');
+        }
+        if (! in_array($amazonTld, [
+            '.co.uk',
+            '.com',
+            '.ca',
+            '.com.br',
+            '.co.jp',
+            '.de',
+            '.fr',
+            '.in',
+            '.it',
+            '.es',
+        ])
+        ) {
+            throw new \InvalidArgumentException('Invalid TLD supplied');
+        }
+
         $this->amazonTld = $amazonTld;
+        return true;
     }
 
     /**
@@ -96,20 +130,25 @@ class AmazonWishlist
     /**
      * @param $reveal
      *
+     * @return bool
      * @throws \InvalidArgumentException
      */
     public function setReveal($reveal)
     {
+        if (! is_string($reveal)) {
+            throw new \InvalidArgumentException('Reveal is not a string');
+        }
         if (! in_array($reveal, [
             'unpurchased',
             'purchased',
             'all',
         ])
         ) {
-            throw new \InvalidArgumentException('Invalid reveal value');
+            throw new \InvalidArgumentException('Invalid reveal supplied');
         }
 
         $this->reveal = $reveal;
+        return true;
     }
 
     /**
@@ -123,10 +162,14 @@ class AmazonWishlist
     /**
      * @param string $sort
      *
+     * @return bool
      * @throws \InvalidArgumentException
      */
     public function setSort($sort)
     {
+        if (! is_string($sort)) {
+            throw new \InvalidArgumentException('Sort is not a string');
+        }
         switch ($sort) {
             case 'date':
                 $this->sort = 'date-added';
@@ -149,6 +192,8 @@ class AmazonWishlist
             default:
                 throw new \InvalidArgumentException('Invalid sort value');
         }
+
+        return true;
     }
 
     /**
@@ -161,10 +206,21 @@ class AmazonWishlist
 
     /**
      * @param null|string $tag
+     *
+     * @return bool
+     * @throws \InvalidArgumentException
      */
     public function setAffiliateTag($tag)
     {
+        if (! is_string($tag) && ! is_null($tag)) {
+            throw new \InvalidArgumentException('Affiliate tag is not a string or null');
+        }
+        if (is_string($tag) && ! strlen($tag)) {
+            throw new \InvalidArgumentException('Affiliate tag must have content if it is a string');
+        }
+
         $this->affiliateTag = $tag;
+        return true;
     }
 
     /**
@@ -175,7 +231,6 @@ class AmazonWishlist
         if (is_null($this->affiliateTag)) {
             return '';
         }
-
         return "tag={$this->affiliateTag}";
     }
 
@@ -193,7 +248,7 @@ class AmazonWishlist
     public function getUrl()
     {
         return "{$this->getBaseUrl()}/registry/wishlist/{$this->getId()}?"
-                . "{$this->getRevealParam()}&{$this->getSortParam()}&layout=standard";
+        . "{$this->getRevealParam()}&{$this->getSortParam()}&layout=standard";
     }
 
     /**
