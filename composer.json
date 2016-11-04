@@ -8,8 +8,16 @@
       "email": "jmwri93@gmail.com"
     }
   ],
+  "support": {
+    "email": "jmwri93@gmail.com",
+    "issues": "https://github.com/jmwri/amazon-wishlist/issues",
+    "source": "https://github.com/jmwri/amazon-wishlist",
+    "docs": "https://github.com/jmwri/amazon-wishlist/blob/master/README.md"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "*"
+  },
   "require": {
-    "phpunit/phpunit": "*",
     "electrolinux/phpquery": "^0.9.6"
   },
   "autoload": {
