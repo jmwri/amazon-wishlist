@@ -1,6 +1,7 @@
 {
   "name": "jmwri/amazon-wishlist",
   "description": "A web scraper to get the contents of Amazon wishlists.",
+  "license": "MIT",
   "authors": [
     {
       "name": "Jim Wright",
