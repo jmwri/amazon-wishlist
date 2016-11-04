@@ -1,7 +1,9 @@
----
 engines:
   duplication:
     enabled: true
     config:
       languages:
       - php
+ratings:
+  paths:
+  - src/**
