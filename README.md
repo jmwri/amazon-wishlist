@@ -1,5 +1,11 @@
 # Amazon Wishlist
 
+[![Build Status](https://travis-ci.org/jmwri/amazon-wishlist.svg?branch=master)](https://travis-ci.org/jmwri/amazon-wishlist)
+[![Total Downloads](https://poser.pugx.org/jmwri/amazon-wishlist/d/total.svg)](https://packagist.org/packages/jmwri/amazon-wishlist)
+[![Latest Stable Version](https://poser.pugx.org/jmwri/amazon-wishlist/v/stable.svg)](https://packagist.org/packages/jmwri/amazon-wishlist)
+[![Latest Unstable Version](https://poser.pugx.org/jmwri/amazon-wishlist/v/unstable.svg)](https://packagist.org/packages/jmwri/amazon-wishlist)
+[![License](https://poser.pugx.org/jmwri/amazon-wishlist/license.svg)](https://packagist.org/packages/jmwri/amazon-wishlist)
+
 **https://github.com/jmwri/amazon-wishlist**
 
 This package is used to retrieve Amazon Wishlist data. There is no official API so this package uses web scraping. It works with the old and the new Amazon Wishlist design.
@@ -98,31 +104,35 @@ Currently Amazon Wishlist supports the following formats:
 
 # Usage
 ## Source
-    $wishlist = new AmazonWishlist();
-    $json = $wishlist->getJson(true, true); // $getIsbn, $getAuthor
-    echo $wishlistArray;
+```
+$wishlist = new AmazonWishlist();
+$json = $wishlist->getJson(true, true); // $getIsbn, $getAuthor
+echo $wishlistArray;
+```
 
 ## Output
-    [
-      {
-        "name": "Jim Dunlop Nylon Guitar Picks \/ Plectrums (Handy pack of 6 Picks)",
-        "link": "http:\/\/www.amazon.co.uk\/dp\/B000Q8479G\/ref=wl_it_dp_v_nS_ttl\/254-6401618-7451003?_encoding=UTF8&colid=2EZ944B2S8C5Q&coliid=IRWRMX6CVN0BT",
-        "oldPrice": "N\/A",
-        "newPrice": "\u00a32.29",
-        "dateAdded": "2 November, 2016",
-        "priority": "",
-        "rating": "N\/A",
-        "totalRatings": "",
-        "comment": "",
-        "picture": "https:\/\/images-eu.ssl-images-amazon.com\/images\/I\/21dxJZ3XQfL._SL500_SL135_.jpg",
-        "page": 1,
-        "asin": "B000Q8479G",
-        "largeSslImage": "https:\/\/images-eu.ssl-images-amazon.com\/images\/I\/21dxJZ3XQfL._SL500_SL1350_.jpg",
-        "affiliateUrl": "http:\/\/www.amazon.co.uk\/dp\/B000Q8479G\/ref=nosim?",
-        "isbn": null,
-        "author": null
-      }
-    ]
+```
+[
+  {
+    "name": "Jim Dunlop Nylon Guitar Picks \/ Plectrums (Handy pack of 6 Picks)",
+    "link": "http:\/\/www.amazon.co.uk\/dp\/B000Q8479G\/ref=wl_it_dp_v_nS_ttl\/254-6401618-7451003?_encoding=UTF8&colid=2EZ944B2S8C5Q&coliid=IRWRMX6CVN0BT",
+    "oldPrice": "N\/A",
+    "newPrice": "\u00a32.29",
+    "dateAdded": "2 November, 2016",
+    "priority": "",
+    "rating": "N\/A",
+    "totalRatings": "",
+    "comment": "",
+    "picture": "https:\/\/images-eu.ssl-images-amazon.com\/images\/I\/21dxJZ3XQfL._SL500_SL135_.jpg",
+    "page": 1,
+    "asin": "B000Q8479G",
+    "largeSslImage": "https:\/\/images-eu.ssl-images-amazon.com\/images\/I\/21dxJZ3XQfL._SL500_SL1350_.jpg",
+    "affiliateUrl": "http:\/\/www.amazon.co.uk\/dp\/B000Q8479G\/ref=nosim?",
+    "isbn": null,
+    "author": null
+  }
+]
+```
 
 # Support
 https://github.com/jmwri/amazon-wishlist/issues
