@@ -5,6 +5,20 @@ namespace JmWri\AmazonWishlist\Test;
 use JmWri\AmazonWishlist\AmazonWishlist;
 
 /**
+ * Class TestAmazonWishlist
+ * @package JmWri\AmazonWishlist\Test
+ */
+class TestAmazonWishlist extends AmazonWishlist
+{
+    /**
+     * @var null|string
+     */
+    protected $baseUrl = '/';
+
+}
+
+
+/**
  * Class AmazonWishlistTest
  * @package JmWri\AmazonWishlist\Test
  */

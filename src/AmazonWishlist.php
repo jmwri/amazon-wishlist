@@ -39,6 +39,11 @@ class AmazonWishlist
     protected $affiliateTag;
 
     /**
+     * @var null|string
+     */
+    protected $baseUrl = 'http://www.amazon';
+
+    /**
      * AmazonWishlist constructor.
      *
      * @param string $id
@@ -239,7 +244,7 @@ class AmazonWishlist
      */
     public function getBaseUrl()
     {
-        return "http://www.amazon{$this->getAmazonTld()}";
+        return "{$this->baseUrl}{$this->getAmazonTld()}";
     }
 
     /**
@@ -252,6 +257,25 @@ class AmazonWishlist
     }
 
     /**
+     * @param string $baseUrl
+     *
+     * @return bool
+     * @throws \InvalidArgumentException
+     */
+    public function setBaseUrl($baseUrl)
+    {
+        if (! is_string($baseUrl)) {
+            throw new \InvalidArgumentException('Base URL is not a string');
+        }
+        if (! strlen($baseUrl)) {
+            throw new \InvalidArgumentException('Base URL is empty');
+        }
+
+        $this->baseUrl = $baseUrl;
+        return true;
+    }
+
+    /**
      * @param bool $getIsbn
      * @param bool $getAuthor
      *
@@ -260,7 +284,8 @@ class AmazonWishlist
      */
     protected function getWishlist($getIsbn = false, $getAuthor = false)
     {
-        $content = $this->getDocumentFile($this->getUrl());
+        $url = $this->getUrl();
+        $content = $this->getDocumentFile($url);
         if ($content == '') {
             throw new AmazonWishlistException('Unable to load wishlist');
         }
@@ -273,7 +298,7 @@ class AmazonWishlist
 
         $pages = $wishlist->getPageCount();
 
-        return $wishlist->getWishlist($this->getUrl(), $pages, $getIsbn, $getAuthor);
+        return $wishlist->getWishlist($url, $pages, $getIsbn, $getAuthor);
     }
 
     /**
