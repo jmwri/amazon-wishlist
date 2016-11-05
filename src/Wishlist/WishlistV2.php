@@ -3,7 +3,6 @@
 namespace JmWri\AmazonWishlist\Wishlist;
 
 
-use JmWri\AmazonWishlist\AmazonWishlistException;
 use JmWri\AmazonWishlist\WishlistItem;
 
 /**
@@ -14,36 +13,11 @@ class WishlistV2 extends BaseWishlist
 {
 
     /**
-     * @param string $url
-     * @param int $pages
-     * @param bool $getIsbn
-     * @param bool $getAuthor
-     *
-     * @return WishlistItem[]
-     * @throws AmazonWishlistException
+     * @return \phpQueryObject|\QueryTemplatesParse|\QueryTemplatesSource|\QueryTemplatesSourceQuery
      */
-    public function getWishlist($url, $pages, $getIsbn = false, $getAuthor = false)
+    protected function getWishlistItems()
     {
-        $wishlistItems = [];
-
-        for ($page = 1; $page <= $pages; $page++) {
-            $contents = $this->getDocumentFile("{$url}&page=$page");
-            if ($contents == '') {
-                throw new AmazonWishlistException('Failed to load a page of the wishlist');
-            }
-
-            // Get all items
-            $items = pq('.g-items-section div[id^="item_"]');
-
-            foreach ($items as $item) {
-                $wishlistItem = $this->getWishlistItem($item, $page, $getIsbn, $getAuthor);
-                if ($wishlistItem) {
-                    $wishlistItems[] = $wishlistItem;
-                }
-            }
-        }
-
-        return $wishlistItems;
+        return pq('.g-items-section div[id^="item_"]');
     }
 
     /**

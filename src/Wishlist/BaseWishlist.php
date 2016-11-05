@@ -3,6 +3,7 @@
 namespace JmWri\AmazonWishlist\Wishlist;
 
 use JmWri\AmazonWishlist\AmazonWishlist;
+use JmWri\AmazonWishlist\AmazonWishlistException;
 use JmWri\AmazonWishlist\PhpQueryTrait;
 use JmWri\AmazonWishlist\WishlistItem;
 
@@ -37,8 +38,45 @@ abstract class BaseWishlist
      * @param bool $getAuthor
      *
      * @return WishlistItem[]
+     * @throws AmazonWishlistException
      */
-    abstract public function getWishlist($url, $pages, $getIsbn = false, $getAuthor = false);
+    public function getWishlist($url, $pages, $getIsbn = false, $getAuthor = false)
+    {
+        $wishlistItems = [];
+
+        for ($page = 1; $page <= $pages; $page++) {
+            $contents = $this->getDocumentFile("{$url}&page=$page");
+            if ($contents == '') {
+                throw new AmazonWishlistException('Failed to load a page of the wishlist');
+            }
+
+            $items = $this->getWishlistItems();
+
+            foreach ($items as $item) {
+                $wishlistItem = $this->getWishlistItem($item, $page, $getIsbn, $getAuthor);
+                if ($wishlistItem) {
+                    $wishlistItems[] = $wishlistItem;
+                }
+            }
+        }
+
+        return $wishlistItems;
+    }
+
+    /**
+     * @return \phpQueryObject|\QueryTemplatesParse|\QueryTemplatesSource|\QueryTemplatesSourceQuery
+     */
+    abstract protected function getWishlistItems();
+
+    /**
+     * @param string $itemHtml
+     * @param int $page
+     * @param bool $getIsbn
+     * @param bool $getAuthor
+     *
+     * @return false|WishlistItem
+     */
+    abstract protected function getWishlistItem($itemHtml, $page, $getIsbn, $getAuthor);
 
     /**
      * @param int $count
