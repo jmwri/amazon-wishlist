@@ -236,18 +236,18 @@ class AmazonWishlistTest extends BaseTest
         }
     }
 
-    public function testGetArray()
-    {
-        $wishlist = new AmazonWishlist('2EZ944B2S8C5Q');
-        $wishlistArray = $wishlist->getArray(true, true);
-        $this->assertTrue(is_array($wishlistArray));
-    }
-
-    public function testGetJson()
-    {
-        $wishlist = new AmazonWishlist('2EZ944B2S8C5Q');
-        $wishlistJson = $wishlist->getJson(true, true);
-        $this->assertTrue(is_string($wishlistJson));
-    }
+//    public function testGetArray()
+//    {
+//        $wishlist = new AmazonWishlist('2EZ944B2S8C5Q');
+//        $wishlistArray = $wishlist->getArray(true, true);
+//        $this->assertTrue(is_array($wishlistArray));
+//    }
+//
+//    public function testGetJson()
+//    {
+//        $wishlist = new AmazonWishlist('2EZ944B2S8C5Q');
+//        $wishlistJson = $wishlist->getJson(true, true);
+//        $this->assertTrue(is_string($wishlistJson));
+//    }
 
 }
