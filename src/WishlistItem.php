@@ -385,16 +385,23 @@ class WishlistItem
      */
     public function toArray()
     {
-        $reflectionClass = new ReflectionClass(get_class($this));
-        $array = [];
-
-        foreach ($reflectionClass->getProperties() as $property) {
-            $property->setAccessible(true);
-            $array[$property->getName()] = $property->getValue($this);
-            $property->setAccessible(false);
-        }
-
-        return $array;
+        return [
+            'name' => $this->getName(),
+            'link' => $this->getLink(),
+            'old_price' => $this->getOldPrice(),
+            'new_price' => $this->getNewPrice(),
+            'date_added' => $this->getDateAdded(),
+            'priority' => $this->getPriority(),
+            'rating' => $this->getRating(),
+            'total_ratings' => $this->getTotalRatings(),
+            'comment' => $this->getComment(),
+            'picture' => $this->getPicture(),
+            'page' => $this->getPage(),
+            'asin' => $this->getAsin(),
+            'large_ssl_image' => $this->getLargeSslImage(),
+            'affiliate_url' => $this->getAffiliateUrl(),
+            'author' => $this->getAuthor(),
+        ];
     }
 
 }
