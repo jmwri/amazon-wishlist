@@ -2,9 +2,8 @@
 
 namespace JmWri\AmazonWishlist\Wishlist;
 
-use JmWri\AmazonWishlist\AmazonWishlist;
 use JmWri\AmazonWishlist\AmazonWishlistException;
-use JmWri\AmazonWishlist\PhpQueryTrait;
+use JmWri\AmazonWishlist\Source\AmazonSource;
 use JmWri\AmazonWishlist\WishlistItem;
 
 /**
@@ -14,38 +13,35 @@ use JmWri\AmazonWishlist\WishlistItem;
 abstract class BaseWishlist
 {
 
-    use PhpQueryTrait;
-
     /**
-     * @var AmazonWishlist
+     * @var AmazonSource
      */
-    protected $amazonWishlist;
+    protected $source;
 
     /**
      * BaseWishlist constructor.
      *
-     * @param AmazonWishlist $amazonWishlist
+     * @param AmazonSource $source
      */
-    public function __construct(& $amazonWishlist)
+    public function __construct($source)
     {
-        $this->amazonWishlist = $amazonWishlist;
+        $this->source = $source;
     }
 
     /**
-     * @param string $url
+     * @param AmazonSource $source
+     * @param array $params
      * @param int $pages
-     * @param bool $getIsbn
      * @param bool $getAuthor
      *
      * @return WishlistItem[]
      * @throws AmazonWishlistException
      */
-    public function getWishlist($url, $pages, $getIsbn = false, $getAuthor = false)
+    public function getWishlist($source, $params, $pages, $getAuthor = false)
     {
         $wishlistItems = [];
-
         for ($page = 1; $page <= $pages; $page++) {
-            $contents = $this->getDocumentFile("{$url}&page=$page");
+            $contents = $source->getDocumentFilePagedWithParams($params, $page);
             if ($contents == '') {
                 throw new AmazonWishlistException('Failed to load a page of the wishlist');
             }
@@ -53,7 +49,7 @@ abstract class BaseWishlist
             $items = $this->getWishlistItems();
 
             foreach ($items as $item) {
-                $wishlistItem = $this->getWishlistItem($item, $page, $getIsbn, $getAuthor);
+                $wishlistItem = $this->getWishlistItem($item, $page, $params['tag'], $getAuthor);
                 if ($wishlistItem) {
                     $wishlistItems[] = $wishlistItem;
                 }
@@ -71,12 +67,12 @@ abstract class BaseWishlist
     /**
      * @param string $itemHtml
      * @param int $page
-     * @param bool $getIsbn
+     * @param int $tag
      * @param bool $getAuthor
      *
      * @return false|WishlistItem
      */
-    abstract protected function getWishlistItem($itemHtml, $page, $getIsbn, $getAuthor);
+    abstract protected function getWishlistItem($itemHtml, $page, $tag, $getAuthor);
 
     /**
      * @param int $count
@@ -104,16 +100,13 @@ abstract class BaseWishlist
      * http://www.amazon.com.br/dp/B00YSILJZU/ref=wl_it_dp_v_nS_ttl/177-3586976-1287133?_encoding=UTF8&colid=3OF5TPV1ZMWLM&coliid=I36RLGSQVQOUYH
      * http://www.amazon.fr/dp/B003FRXFWK/ref=wl_it_dp_v_S_ttl/275-1202652-6343230?_encoding=UTF8&colid=1EHE58O7QKWTH&coliid=I3EGD6MPOTC9GY
      *
-     * @param string $url
+     * @param string $productLink
      *
      * @return string
      */
-    protected function getASIN($url)
+    protected function getAsin($productLink)
     {
-        $ASIN = str_replace("{$this->amazonWishlist->getBaseUrl()}/dp/", '', $url);
-        $ASIN = substr($ASIN, 0, 10);
-
-        return $ASIN;
+        return $this->source->getAsin($productLink);
     }
 
     /**
@@ -145,55 +138,13 @@ abstract class BaseWishlist
     }
 
     /**
-     * According to https://affiliate-program.amazon.co.uk/gp/associates/help/t5/a21
-     *
-     * > So if you need to build a simple text link to a specific item on Amazon.co.uk, here is the link format you
-     * need to use: http://www.amazon.co.uk/dp/ASIN/ref=nosim?tag=YOURASSOCIATEID
-     *
-     * e.g. http://www.amazon.co.uk/dp/B00U7EXH72/ref=nosim?tag=shkspr-21
-     *
-     * Is this the same for all countries?
-     *
-     * Your Associate ID only works with one country
-     * https://affiliate-program.amazon.co.uk/gp/associates/help/t22/a13%3Fie%3DUTF8%26pf_rd_i%3Dassoc_he..
-     *
-     * @param string $AISN
-     *
-     * @return string
-     */
-    protected function getAffiliateLink($AISN)
-    {
-        return "{$this->amazonWishlist->getBaseUrl()}/dp/{$AISN}/ref=nosim?"
-                . "{$this->amazonWishlist->getAffiliateTagParam()}";
-    }
-
-    /**
-     * Go to product details page for ISBN
-     *
-     * @param string $url
-     *
-     * @return string
-     */
-    protected function getISBN($url)
-    {
-        $productPage = $this->getDocumentFile($url);
-
-        return trim(
-            str_replace('ISBN-13:', '',
-                trim(
-                    pq($productPage)->find('.bucket .content li:has(b:contains("ISBN-13"))')->text()
-                ))
-        );
-    }
-
-    /**
      * @param string $url
      *
      * @return string
      */
     protected function getAuthor($url)
     {
-        $productPage = $this->getDocumentFile($url);
+        $productPage = $this->source->getDocumentFile($url);
 
         return trim(
             str_replace(

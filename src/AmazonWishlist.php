@@ -5,23 +5,20 @@ namespace JmWri\AmazonWishlist;
 use JmWri\AmazonWishlist\Wishlist\WishlistV1;
 use JmWri\AmazonWishlist\Wishlist\WishlistV2;
 
+use JmWri\AmazonWishlist\Source\AmazonSource;
+
 /**
  * Class AmazonWishlist
  * @package JmWri\AmazonWishlist
  */
 class AmazonWishlist
 {
-    use PhpQueryTrait;
 
     /**
-     * @var string $id
+     * @var AmazonSource $source
+     *
      */
-    protected $id;
-
-    /**
-     * @var string $amazonTld
-     */
-    protected $amazonTld;
+    protected $source;
 
     /**
      * @var string $reveal
@@ -39,97 +36,23 @@ class AmazonWishlist
     protected $affiliateTag;
 
     /**
-     * @var null|string
-     */
-    protected $baseUrl = 'http://www.amazon';
-
-    /**
      * AmazonWishlist constructor.
      *
-     * @param string $id
-     * @param string $tld
+     * @param AmazonSource $source
      * @param string $reveal
      * @param string $sort
      * @param null|string $affiliateTag
      */
     public function __construct(
-        $id,
-        $tld = '.co.uk',
+        $source,
         $reveal = 'unpurchased',
         $sort = 'date',
         $affiliateTag = null
     ) {
-        $this->setId($id);
-        $this->setAmazonTld($tld);
+        $this->source = $source;
         $this->setReveal($reveal);
         $this->setSort($sort);
         $this->setAffiliateTag($affiliateTag);
-    }
-
-    /**
-     * @param string $id
-     *
-     * @return bool
-     * @throws \InvalidArgumentException
-     */
-    public function setId($id)
-    {
-        if (! is_string($id)) {
-            throw new \InvalidArgumentException('ID is not a string');
-        }
-        if (! strlen($id)) {
-            throw new \InvalidArgumentException('ID is empty');
-        }
-
-        $this->id = $id;
-        return true;
-    }
-
-    /**
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param string $amazonTld
-     *
-     * @return bool
-     * @throws \InvalidArgumentException
-     */
-    public function setAmazonTld($amazonTld)
-    {
-        if (! is_string($amazonTld)) {
-            throw new \InvalidArgumentException('TLD is not a string');
-        }
-        if (! in_array($amazonTld, [
-            '.co.uk',
-            '.com',
-            '.ca',
-            '.com.br',
-            '.co.jp',
-            '.de',
-            '.fr',
-            '.in',
-            '.it',
-            '.es',
-        ])
-        ) {
-            throw new \InvalidArgumentException('Invalid TLD supplied');
-        }
-
-        $this->amazonTld = $amazonTld;
-        return true;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAmazonTld()
-    {
-        return $this->amazonTld;
     }
 
     /**
@@ -159,9 +82,9 @@ class AmazonWishlist
     /**
      * @return string
      */
-    public function getRevealParam()
+    public function getReveal()
     {
-        return "reveal={$this->reveal}";
+        return $this->reveal;
     }
 
     /**
@@ -204,9 +127,9 @@ class AmazonWishlist
     /**
      * @return string
      */
-    public function getSortParam()
+    public function getSort()
     {
-        return "sort={$this->sort}";
+        return $this->sort;
     }
 
     /**
@@ -229,89 +152,96 @@ class AmazonWishlist
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getAffiliateTagParam()
+    public function getAffiliateTag()
     {
-        if (is_null($this->affiliateTag)) {
-            return '';
-        }
-        return "tag={$this->affiliateTag}";
+        return $this->affiliateTag;
     }
 
     /**
-     * @return string
-     */
-    public function getBaseUrl()
-    {
-        return "{$this->baseUrl}{$this->getAmazonTld()}";
-    }
-
-    /**
-     * @return string
-     */
-    public function getUrl()
-    {
-        return "{$this->getBaseUrl()}/registry/wishlist/{$this->getId()}?"
-        . "{$this->getRevealParam()}&{$this->getSortParam()}&layout=standard";
-    }
-
-    /**
-     * @param string $baseUrl
+     * @param string $id
      *
      * @return bool
      * @throws \InvalidArgumentException
      */
-    public function setBaseUrl($baseUrl)
+    public function setId($id)
     {
-        if (! is_string($baseUrl)) {
-            throw new \InvalidArgumentException('Base URL is not a string');
-        }
-        if (! strlen($baseUrl)) {
-            throw new \InvalidArgumentException('Base URL is empty');
-        }
-
-        $this->baseUrl = $baseUrl;
-        return true;
+        return $this->source->setId($id);
     }
 
     /**
-     * @param bool $getIsbn
+     * @param string $tld
+     *
+     * @return bool
+     * @throws \InvalidArgumentException
+     */
+    public function setTld($tld)
+    {
+        return $this->source->setTld($tld);
+    }
+
+    /**
+     * According to https://affiliate-program.amazon.co.uk/gp/associates/help/t5/a21
+     *
+     * > So if you need to build a simple text link to a specific item on Amazon.co.uk, here is the link format you
+     * need to use: http://www.amazon.co.uk/dp/ASIN/ref=nosim?tag=YOURASSOCIATEID
+     *
+     * e.g. http://www.amazon.co.uk/dp/B00U7EXH72/ref=nosim?tag=shkspr-21
+     *
+     * Is this the same for all countries?
+     *
+     * Your Associate ID only works with one country
+     * https://affiliate-program.amazon.co.uk/gp/associates/help/t22/a13%3Fie%3DUTF8%26pf_rd_i%3Dassoc_he..
+     *
+     * @param string $aisn
+     *
+     * @return string
+     */
+    protected function getAffiliateLink($aisn)
+    {
+        $this->source->getAffiliateLink($aisn, $this->getAffiliateTag());
+    }
+
+    /**
      * @param bool $getAuthor
      *
      * @return WishlistItem[]
      * @throws AmazonWishlistException
      */
-    protected function getWishlist($getIsbn = false, $getAuthor = false)
+    protected function getWishlist($getAuthor = false)
     {
-        $url = $this->getUrl();
-        $content = $this->getDocumentFile($url);
+        $params = [
+            'reveal' => $this->getReveal(),
+            'sort' => $this->getSort(),
+            'tag' => $this->getAffiliateTag(),
+        ];
+        $content = $this->source->getDocumentFileWithParams($params);
         if ($content == '') {
             throw new AmazonWishlistException('Unable to load wishlist');
         }
 
         if (count(pq('tbody.itemWrapper')) > 0) {
-            $wishlist = new WishlistV1($this);
+            $wishlist = new WishlistV1($this->source, $this->getAffiliateTag());
         } else {
-            $wishlist = new WishlistV2($this);
+            $wishlist = new WishlistV2($this->source, $this->getAffiliateTag());
         }
 
         $pages = $wishlist->getPageCount();
 
-        return $wishlist->getWishlist($url, $pages, $getIsbn, $getAuthor);
+        return $wishlist->getWishlist($this->source, $params, $pages, $getAuthor);
     }
 
     /**
-     * @param bool $getIsbn
      * @param bool $getAuthor
      *
      * @return array
      */
-    public function getArray($getIsbn = false, $getAuthor = false)
+    public function getArray($getAuthor = false)
     {
         $wishlistItemsToArray = [];
 
-        foreach ($this->getWishlist($getIsbn, $getAuthor) as $wishlistItem) {
+        foreach ($this->getWishlist($getAuthor) as $wishlistItem) {
             $wishlistItemsToArray[] = $wishlistItem->toArray();
         }
 
@@ -319,14 +249,13 @@ class AmazonWishlist
     }
 
     /**
-     * @param bool $getIsbn
      * @param bool $getAuthor
      *
      * @return string
      */
-    public function getJson($getIsbn = false, $getAuthor = false)
+    public function getJson($getAuthor = false)
     {
-        return json_encode($this->getArray($getIsbn, $getAuthor));
+        return json_encode($this->getArray($getAuthor));
     }
 
 }

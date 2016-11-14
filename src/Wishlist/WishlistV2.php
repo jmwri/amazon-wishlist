@@ -23,65 +23,67 @@ class WishlistV2 extends BaseWishlist
     /**
      * @param string $itemHtml
      * @param int $page
-     * @param bool $getIsbn
+     * @param string $tag
      * @param bool $getAuthor
      *
      * @return false|WishlistItem
      */
-    protected function getWishlistItem($itemHtml, $page, $getIsbn, $getAuthor)
+    protected function getWishlistItem($itemHtml, $page, $tag, $getAuthor)
     {
+        $itemPq = pq($itemHtml);
         $name = htmlentities(
             trim(
-                pq($itemHtml)->find('a[id^="itemName_"]')->html()
+                $itemPq->find('a[id^="itemName_"]')->html()
             )
         );
-        $link = pq($itemHtml)->find('a[id^="itemName_"]')->attr('href');
+        $link = $itemPq->find('a[id^="itemName_"]')->attr('href');
 
         if (! $name || ! $link) {
             return false;
         }
 
-        $total_ratings = pq($itemHtml)
-            ->find('div[id^="itemInfo_"] div:a-spacing-small:first a.a-link-normal:last')->html();
-        $total_ratings = trim(
-            str_replace(
-                array('(', ')'),
-                '',
-                $total_ratings
-            )
+        $rating = $itemPq->find('.a-icon-star')->contents()->html();
+        $matches = array();
+        preg_match('/[0-5].[0-9]/', $rating, $matches);
+        $rating = count($matches) ? $matches[0] : 'N/A';
+
+        $totalRatings = $itemPq->contents()->html();
+        $matches = array();
+        preg_match('/\(([0-9]|,)+\)/', $totalRatings, $matches);
+        $totalRatings = str_replace(
+            array('(', ')'),
+            '',
+            count($matches) ? $matches[0] : ''
         );
-        $total_ratings = is_numeric($total_ratings) ? $total_ratings : '';
+        $totalRatings = trim($totalRatings);
 
         $wishlistItem = new WishlistItem();
         $wishlistItem->setName($name);
-        $wishlistItem->setLink($this->amazonWishlist->getBaseUrl() . $link);
+        $wishlistItem->setLink($this->source->getFullLink($link));
         $wishlistItem->setOldPrice('N/A');
-        $wishlistItem->setNewPrice(trim(pq($itemHtml)->find('span[id^="itemPrice_"]')->html()));
+        $wishlistItem->setNewPrice(trim($itemPq->find('span[id^="itemPrice_"]')->html()));
         $wishlistItem->setDateAdded(trim(
                 str_replace(
                     'Added',
                     '',
-                    pq($itemHtml)->find('div[id^="itemAction_"] .a-size-small')->html())
+                    $itemPq->find('div[id^="itemAction_"] .a-size-small')->html())
             )
         );
         $wishlistItem->setPriority(trim(
-            pq($itemHtml)->find('span[id^="itemPriorityLabel_"]')->html()
+            $itemPq->find('span[id^="itemPriorityLabel_"]')->html()
         ));
-        $wishlistItem->setRating('N/A');
-        $wishlistItem->setTotalRatings($total_ratings);
+        $wishlistItem->setRating($rating);
+        $wishlistItem->setTotalRatings($totalRatings);
         $wishlistItem->setComment(trim(
-            pq($itemHtml)->find('span[id^="itemComment_"]')->html()
+            $itemPq->find('span[id^="itemComment_"]')->html()
         ));
-        $wishlistItem->setPicture(pq($itemHtml)->find('div[id^="itemImage_"] img')->attr('src'));
+        $wishlistItem->setPicture($itemPq->find('div[id^="itemImage_"] img')->attr('src'));
         $wishlistItem->setPage($page);
-        $wishlistItem->setAsin($this->getASIN($wishlistItem->getLink()));
+        $wishlistItem->setAsin($this->getAsin($wishlistItem->getLink()));
         $wishlistItem->setLargeSslImage($this->getLargeSslImage($wishlistItem->getPicture()));
-        $wishlistItem->setAffiliateUrl($this->getAffiliateLink($wishlistItem->getAsin()));
-        if ($getIsbn) {
-            $wishlistItem->setIsbn($this->getISBN($wishlistItem->getLink()));
-        }
+        $wishlistItem->setAffiliateUrl($this->source->getAffiliateLink($wishlistItem->getAsin(), $tag));
         if ($getAuthor) {
-            $setAuthor = pq($itemHtml)
+            $setAuthor = $itemPq
                 ->find('div[id^="itemInfo_"] .a-row.a-size-small:has(h5 a[id^="itemName_"])');
             $setAuthor->find('h5')->remove();
             $setAuthor = trim(

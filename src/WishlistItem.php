@@ -84,11 +84,6 @@ class WishlistItem
     /**
      * @var string
      */
-    protected $isbn;
-
-    /**
-     * @var string
-     */
     protected $author;
 
     /**
@@ -126,7 +121,6 @@ class WishlistItem
         $asin = null,
         $largeSslImage = null,
         $affiliateUrl = null,
-        $isbn = null,
         $author = null
     ) {
         $this->setName($name);
@@ -143,7 +137,6 @@ class WishlistItem
         $this->setAsin($asin);
         $this->setLargeSslImage($largeSslImage);
         $this->setAffiliateUrl($affiliateUrl);
-        $this->setIsbn($isbn);
         $this->setAuthor($author);
     }
 
@@ -369,22 +362,6 @@ class WishlistItem
     public function setAffiliateUrl($affiliateUrl)
     {
         $this->affiliateUrl = $affiliateUrl;
-    }
-
-    /**
-     * @return string
-     */
-    public function getIsbn()
-    {
-        return $this->isbn;
-    }
-
-    /**
-     * @param string $isbn
-     */
-    public function setIsbn($isbn)
-    {
-        $this->isbn = $isbn;
     }
 
     /**

@@ -23,12 +23,11 @@ class WishlistV1 extends BaseWishlist
     /**
      * @param string $itemHtml
      * @param int $page
-     * @param bool $getIsbn
      * @param bool $getAuthor
      *
      * @return false|WishlistItem
      */
-    protected function getWishlistItem($itemHtml, $page, $getIsbn, $getAuthor)
+    protected function getWishlistItem($itemHtml, $page, $tag, $getAuthor)
     {
         $check_if_regular = pq($itemHtml)->find('span.commentBlock nobr');
 
@@ -56,17 +55,14 @@ class WishlistV1 extends BaseWishlist
         ));
         $wishlistItem->setPicture(pq($itemHtml)->find('td.productImage a img')->attr('src'));
         $wishlistItem->setPage($page);
-        $wishlistItem->setAsin($this->getASIN($wishlistItem->getLink()));
+        $wishlistItem->setAsin($this->getAsin($wishlistItem->getLink()));
         $wishlistItem->setLargeSslImage($this->getLargeSslImage($wishlistItem->getPicture()));
-        $wishlistItem->setAffiliateUrl($this->getAffiliateLink($wishlistItem->getAsin()));
-        if ($getIsbn) {
-            $wishlistItem->setIsbn($this->getISBN($wishlistItem->getLink()));
-        }
+        $wishlistItem->setAffiliateUrl($this->source->getAffiliateLink($wishlistItem->getAsin(), $tag));
         if ($getAuthor) {
             $wishlistItem->setAuthor($this->getAuthor($wishlistItem->getLink()));
         }
 
-        $wishlistItems[] = $wishlistItem;
+        return $wishlistItem;
     }
 
     /**

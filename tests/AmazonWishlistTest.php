@@ -3,6 +3,7 @@
 namespace JmWri\AmazonWishlist\Test;
 
 use JmWri\AmazonWishlist\AmazonWishlist;
+use JmWri\AmazonWishlist\Source\AmazonSource;
 
 /**
  * Class TestAmazonWishlist
@@ -152,9 +153,9 @@ class AmazonWishlistTest extends BaseTest
             1234,
         ];
 
+        $source = new AmazonSource(self::$idValid[0], self::$tldValid[0]);
         self::$wishlist = new AmazonWishlist(
-            self::$idValid[0],
-            self::$tldValid[0],
+            $source,
             self::$revealValid[0],
             self::$sortValid[0],
             null
@@ -179,7 +180,7 @@ class AmazonWishlistTest extends BaseTest
     public function testSetTldValid()
     {
         foreach (self::$tldValid as $tld) {
-            $this->assertTrue(self::$wishlist->setAmazonTld($tld));
+            $this->assertTrue(self::$wishlist->setTld($tld));
         }
     }
 
@@ -187,7 +188,7 @@ class AmazonWishlistTest extends BaseTest
     {
         foreach (self::$tldInvalid as $tld) {
             $this->expectException(\InvalidArgumentException::class);
-            self::$wishlist->setAmazonTld($tld);
+            self::$wishlist->setTld($tld);
         }
     }
 
@@ -236,18 +237,23 @@ class AmazonWishlistTest extends BaseTest
         }
     }
 
-//    public function testGetArray()
-//    {
-//        $wishlist = new AmazonWishlist('2EZ944B2S8C5Q');
-//        $wishlistArray = $wishlist->getArray(true, true);
-//        $this->assertTrue(is_array($wishlistArray));
-//    }
-//
-//    public function testGetJson()
-//    {
-//        $wishlist = new AmazonWishlist('2EZ944B2S8C5Q');
-//        $wishlistJson = $wishlist->getJson(true, true);
-//        $this->assertTrue(is_string($wishlistJson));
-//    }
+    public function testGetArray()
+    {
+        $source = new AmazonSource('2EZ944B2S8C5Q');
+        $wishlist = new AmazonWishlist($source);
+        $wishlistArray = $wishlist->getArray(true);
+        $this->assertTrue(is_array($wishlistArray));
+        $this->assertEquals(4, count($wishlistArray));
+    }
+
+    public function testGetJson()
+    {
+        $source = new AmazonSource('2EZ944B2S8C5Q');
+        $wishlist = new AmazonWishlist($source);
+        $wishlistJson = $wishlist->getJson(true);
+        $wishlistArray = json_decode($wishlistJson, true);
+        $this->assertTrue(is_array($wishlistArray));
+        $this->assertEquals(4, count($wishlistArray));
+    }
 
 }

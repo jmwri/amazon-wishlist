@@ -106,31 +106,81 @@ Currently Amazon Wishlist supports the following formats:
 # Usage
 ## Source
 ```
-$wishlist = new AmazonWishlist();
-$json = $wishlist->getJson(true, true); // $getIsbn, $getAuthor
-echo $wishlistArray;
+source = new AmazonSource('2EZ944B2S8C5Q');
+$wishlist = new AmazonWishlist($source);
+echo $wishlist->getJson(true);
 ```
 
 ## Output
 ```
 [
   {
+    "name": "Sony PlayStation 4 500GB Console (Black)",
+    "link": "http:\/\/www.amazon.co.uk\/dp\/B00BE4HOIM\/ref=wl_it_dp_v_S_ttl\/254-0378842-8297438?_encoding=UTF8&colid=2EZ944B2S8C5Q&coliid=I2W9NEKJBMRSCD",
+    "oldPrice": "N\/A",
+    "newPrice": "\u00a3246.00",
+    "dateAdded": "14 November, 2016",
+    "priority": "Low",
+    "rating": "4.3",
+    "totalRatings": "1,879",
+    "comment": "PS4 test",
+    "picture": "https:\/\/images-eu.ssl-images-amazon.com\/images\/I\/41tFHNWXlPL._SL500_SL135_.jpg",
+    "page": 1,
+    "asin": "B00BE4HOIM",
+    "largeSslImage": "https:\/\/images-eu.ssl-images-amazon.com\/images\/I\/41tFHNWXlPL._SL500_SL1350_.jpg",
+    "affiliateUrl": "http:\/\/www.amazon.co.uk\/dp\/B00BE4HOIM\/ref=nosim?tag=",
+    "author": "1"
+  },
+  {
+    "name": "Node.js for Embedded Systems",
+    "link": "http:\/\/www.amazon.co.uk\/dp\/1491928999\/ref=wl_it_dp_v_nS_ttl\/254-0378842-8297438?_encoding=UTF8&colid=2EZ944B2S8C5Q&coliid=I3SIHYPJ5JCJLY",
+    "oldPrice": "N\/A",
+    "newPrice": "\u00a315.99",
+    "dateAdded": "14 November, 2016",
+    "priority": "High",
+    "rating": "N\/A",
+    "totalRatings": "",
+    "comment": "Test comment",
+    "picture": "https:\/\/images-eu.ssl-images-amazon.com\/images\/I\/51rg3F-fi3L._SL500_SL135_.jpg",
+    "page": 1,
+    "asin": "1491928999",
+    "largeSslImage": "https:\/\/images-eu.ssl-images-amazon.com\/images\/I\/51rg3F-fi3L._SL500_SL1350_.jpg",
+    "affiliateUrl": "http:\/\/www.amazon.co.uk\/dp\/1491928999\/ref=nosim?tag=",
+    "author": "Patrick Mulder"
+  },
+  {
+    "name": "Microsoft Xbox One 500GB Console - Black",
+    "link": "http:\/\/www.amazon.co.uk\/dp\/B00CM1KUVE\/ref=wl_it_dp_v_S_ttl\/254-0378842-8297438?_encoding=UTF8&colid=2EZ944B2S8C5Q&coliid=I2OANBB4P898C7",
+    "oldPrice": "N\/A",
+    "newPrice": "\u00a3214.99",
+    "dateAdded": "5 November, 2016",
+    "priority": "",
+    "rating": "4.0",
+    "totalRatings": "560",
+    "comment": "",
+    "picture": "https:\/\/images-eu.ssl-images-amazon.com\/images\/I\/41GT6C4wqXL._SL500_SL135_.jpg",
+    "page": 1,
+    "asin": "B00CM1KUVE",
+    "largeSslImage": "https:\/\/images-eu.ssl-images-amazon.com\/images\/I\/41GT6C4wqXL._SL500_SL1350_.jpg",
+    "affiliateUrl": "http:\/\/www.amazon.co.uk\/dp\/B00CM1KUVE\/ref=nosim?tag=",
+    "author": ""
+  },
+  {
     "name": "Jim Dunlop Nylon Guitar Picks \/ Plectrums (Handy pack of 6 Picks)",
-    "link": "http:\/\/www.amazon.co.uk\/dp\/B000Q8479G\/ref=wl_it_dp_v_nS_ttl\/254-6401618-7451003?_encoding=UTF8&colid=2EZ944B2S8C5Q&coliid=IRWRMX6CVN0BT",
+    "link": "http:\/\/www.amazon.co.uk\/dp\/B000Q8479G\/ref=wl_it_dp_v_nS_ttl\/254-0378842-8297438?_encoding=UTF8&colid=2EZ944B2S8C5Q&coliid=IRWRMX6CVN0BT",
     "oldPrice": "N\/A",
     "newPrice": "\u00a32.29",
     "dateAdded": "2 November, 2016",
     "priority": "",
-    "rating": "N\/A",
-    "totalRatings": "",
+    "rating": "4.8",
+    "totalRatings": "125",
     "comment": "",
     "picture": "https:\/\/images-eu.ssl-images-amazon.com\/images\/I\/21dxJZ3XQfL._SL500_SL135_.jpg",
     "page": 1,
     "asin": "B000Q8479G",
     "largeSslImage": "https:\/\/images-eu.ssl-images-amazon.com\/images\/I\/21dxJZ3XQfL._SL500_SL1350_.jpg",
-    "affiliateUrl": "http:\/\/www.amazon.co.uk\/dp\/B000Q8479G\/ref=nosim?",
-    "isbn": null,
-    "author": null
+    "affiliateUrl": "http:\/\/www.amazon.co.uk\/dp\/B000Q8479G\/ref=nosim?tag=",
+    "author": ""
   }
 ]
 ```
