@@ -146,4 +146,10 @@ class AmazonSourceTest extends BaseTest
         }
     }
 
+    public function testGetDocumentFile()
+    {
+        $documentFile = self::$source->getDocumentFile(__DIR__ . '/html/basic.html');
+        $this->assertEquals('<p>my basic html</p>', $documentFile->html());
+    }
+
 }
