@@ -4,6 +4,7 @@ namespace JmWri\AmazonWishlist\Test;
 
 use JmWri\AmazonWishlist\AmazonWishlist;
 use JmWri\AmazonWishlist\Source\AmazonSource;
+use JmWri\AmazonWishlist\WishlistItem;
 
 /**
  * Class TestAmazonWishlist
@@ -254,6 +255,24 @@ class AmazonWishlistTest extends BaseTest
         $wishlistArray = json_decode($wishlistJson, true);
         $this->assertTrue(is_array($wishlistArray));
         $this->assertEquals(4, count($wishlistArray));
+    }
+
+    public function testGetAuthor()
+    {
+        $source = new AmazonSource('2EZ944B2S8C5Q');
+        $wishlist = new AmazonWishlist($source);
+        /**
+         * @var WishlistItem[]
+         */
+        $wishlist = $wishlist->getObject(true);
+
+        /**
+         * @var WishlistItem
+         */
+        $wishlistItem = $wishlist[1];
+        $this->assertTrue(is_array($wishlist));
+        $this->assertEquals('Node.js for Embedded Systems', $wishlistItem->getName());
+        $this->assertEquals('Patrick Mulder', $wishlistItem->getAuthor());
     }
 
 }

@@ -235,6 +235,16 @@ class AmazonWishlist
     /**
      * @param bool $getAuthor
      *
+     * @return WishlistItem[]
+     */
+    public function getObject($getAuthor = false)
+    {
+        return $this->getWishlist($getAuthor);
+    }
+
+    /**
+     * @param bool $getAuthor
+     *
      * @return array
      */
     public function getArray($getAuthor = false)

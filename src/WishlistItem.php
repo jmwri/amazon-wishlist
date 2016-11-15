@@ -2,8 +2,6 @@
 
 namespace JmWri\AmazonWishlist;
 
-use ReflectionClass;
-
 /**
  * Class WishlistItem
  * @package JmWri\AmazonWishlist
