@@ -38,10 +38,6 @@ class WishlistV2 extends BaseWishlist
         );
         $link = $itemPq->find('a[id^="itemName_"]')->attr('href');
 
-        if (! $name || ! $link) {
-            return false;
-        }
-
         $rating = $itemPq->find('.a-icon-star')->contents()->html();
         $matches = array();
         preg_match('/[0-5].[0-9]/', $rating, $matches);
