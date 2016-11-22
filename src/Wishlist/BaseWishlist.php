@@ -137,24 +137,4 @@ abstract class BaseWishlist
         return $largeSSLImage;
     }
 
-    /**
-     * @param string $url
-     *
-     * @return string
-     */
-    protected function getAuthor($url)
-    {
-        $productPage = $this->source->getDocumentFile($url);
-
-        return trim(
-            str_replace(
-                '(Author)',
-                '',
-                trim(
-                    pq($productPage)->find('#byline .author .a-popover-preload .a-size-medium')->text()
-                )
-            )
-        );
-    }
-
 }

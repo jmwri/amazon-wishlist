@@ -73,4 +73,24 @@ class WishlistV1 extends BaseWishlist
         return parent::checkPageCount(count(pq('.pagDiv .pagPage')));
     }
 
+    /**
+     * @param string $url
+     *
+     * @return string
+     */
+    protected function getAuthor($url)
+    {
+        $productPage = $this->source->getDocumentFile($url);
+
+        return trim(
+            str_replace(
+                '(Author)',
+                '',
+                trim(
+                    pq($productPage)->find('#byline .author .a-popover-preload .a-size-medium')->text()
+                )
+            )
+        );
+    }
+
 }
