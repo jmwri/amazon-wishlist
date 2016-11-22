@@ -183,28 +183,6 @@ class AmazonWishlist
     }
 
     /**
-     * According to https://affiliate-program.amazon.co.uk/gp/associates/help/t5/a21
-     *
-     * > So if you need to build a simple text link to a specific item on Amazon.co.uk, here is the link format you
-     * need to use: http://www.amazon.co.uk/dp/ASIN/ref=nosim?tag=YOURASSOCIATEID
-     *
-     * e.g. http://www.amazon.co.uk/dp/B00U7EXH72/ref=nosim?tag=shkspr-21
-     *
-     * Is this the same for all countries?
-     *
-     * Your Associate ID only works with one country
-     * https://affiliate-program.amazon.co.uk/gp/associates/help/t22/a13%3Fie%3DUTF8%26pf_rd_i%3Dassoc_he..
-     *
-     * @param string $aisn
-     *
-     * @return string
-     */
-    protected function getAffiliateLink($aisn)
-    {
-        return $this->source->getAffiliateLink($aisn, $this->getAffiliateTag());
-    }
-
-    /**
      * @param bool $getAuthor
      *
      * @return WishlistItem[]
