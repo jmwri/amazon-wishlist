@@ -48,14 +48,6 @@ class FileSource extends BaseSource
     }
 
     /**
-     * @return string
-     */
-    public function getBasePath()
-    {
-        return $this->basePath;
-    }
-
-    /**
      * @param $params
      *
      * @return string
