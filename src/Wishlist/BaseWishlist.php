@@ -42,9 +42,6 @@ abstract class BaseWishlist
         $wishlistItems = [];
         for ($page = 1; $page <= $pages; $page++) {
             $contents = $source->getDocumentFilePagedWithParams($params, $page);
-            if ($contents == '') {
-                throw new AmazonWishlistException('Failed to load a page of the wishlist');
-            }
 
             $items = $this->getWishlistItems();
 
