@@ -218,9 +218,6 @@ class AmazonWishlist
             'tag' => $this->getAffiliateTag(),
         ];
         $content = $this->source->getDocumentFileWithParams($params);
-        if ($content == '') {
-            throw new AmazonWishlistException('Unable to load wishlist');
-        }
 
         if (count(pq('tbody.itemWrapper')) > 0) {
             $wishlist = new WishlistV1($this->source, $this->getAffiliateTag());
