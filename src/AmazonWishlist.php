@@ -3,7 +3,6 @@
 namespace JmWri\AmazonWishlist;
 
 use JmWri\AmazonWishlist\Source\BaseSource;
-use JmWri\AmazonWishlist\Wishlist\WishlistV1;
 use JmWri\AmazonWishlist\Wishlist\WishlistV2;
 
 use JmWri\AmazonWishlist\Source\AmazonSource;
@@ -197,11 +196,7 @@ class AmazonWishlist
         ];
         $content = $this->source->getDocumentFileWithParams($params);
 
-        if (count(pq('tbody.itemWrapper')) > 0) {
-            $wishlist = new WishlistV1($this->source, $this->getAffiliateTag());
-        } else {
-            $wishlist = new WishlistV2($this->source, $this->getAffiliateTag());
-        }
+        $wishlist = new WishlistV2($this->source, $this->getAffiliateTag());
 
         $pages = $wishlist->getPageCount();
 

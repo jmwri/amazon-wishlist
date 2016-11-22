@@ -11,7 +11,7 @@
 
 **https://github.com/jmwri/amazon-wishlist**
 
-This package is used to retrieve Amazon Wishlist data. There is no official API so this package uses web scraping. It works with the old and the new Amazon Wishlist design.
+This package is used to retrieve Amazon Wishlist data. There is no official API so this package uses web scraping. It only supports the new Amazon Wishlist design.
 
 The following Amazon stores have wishlist functionality:
 * UK
