@@ -201,7 +201,7 @@ class AmazonWishlist
      */
     protected function getAffiliateLink($aisn)
     {
-        $this->source->getAffiliateLink($aisn, $this->getAffiliateTag());
+        return $this->source->getAffiliateLink($aisn, $this->getAffiliateTag());
     }
 
     /**
