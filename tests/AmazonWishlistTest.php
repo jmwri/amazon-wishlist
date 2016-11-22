@@ -34,19 +34,9 @@ class AmazonWishlistTest extends BaseTest
     protected static $idValid;
 
     /**
-     * @var mixed[]
-     */
-    protected static $idInvalid;
-
-    /**
      * @var string[]
      */
     protected static $tldValid;
-
-    /**
-     * @var mixed[]
-     */
-    protected static $tldInvalid;
 
     /**
      * @var string[]
@@ -54,29 +44,14 @@ class AmazonWishlistTest extends BaseTest
     protected static $revealValid;
 
     /**
-     * @var mixed[]
-     */
-    protected static $revealInvalid;
-
-    /**
      * @var string[]
      */
     protected static $sortValid;
 
     /**
-     * @var mixed[]
-     */
-    protected static $sortInvalid;
-
-    /**
      * @var string|null[]
      */
     protected static $affiliateTagValid;
-
-    /**
-     * @var mixed[]
-     */
-    protected static $affiliateTagInvalid;
 
     /**
      * @var AmazonWishlist
@@ -88,12 +63,6 @@ class AmazonWishlistTest extends BaseTest
         self::$idValid = [
             '2EZ944B2S8C5Q',
             '7IS947A8S9H3E',
-        ];
-
-        self::$idInvalid = [
-            1234,
-            '',
-            null,
         ];
 
         self::$tldValid = [
@@ -109,25 +78,10 @@ class AmazonWishlistTest extends BaseTest
             '.es',
         ];
 
-        self::$tldInvalid = [
-            '.com.au',
-            '.com.mx',
-            '.nl',
-            123,
-            '',
-        ];
-
         self::$revealValid = [
             'unpurchased',
             'purchased',
             'all',
-        ];
-
-        self::$revealInvalid = [
-            'wishlist',
-            'favourite',
-            1234,
-            '',
         ];
 
         self::$sortValid = [
@@ -139,20 +93,9 @@ class AmazonWishlistTest extends BaseTest
             'updated',
         ];
 
-        self::$sortInvalid = [
-            1234,
-            '',
-            'not-valid',
-        ];
-
         self::$affiliateTagValid = [
             'text-affiliate-tag',
             null,
-        ];
-
-        self::$affiliateTagInvalid = [
-            '',
-            1234,
         ];
 
         $source = new AmazonSource(self::$idValid[0], self::$tldValid[0]);
@@ -171,12 +114,22 @@ class AmazonWishlistTest extends BaseTest
         }
     }
 
-    public function testSetIdInvalid()
+    public function testSetIdInvalidNumber()
     {
-        foreach (self::$idInvalid as $id) {
-            $this->expectException(\InvalidArgumentException::class);
-            self::$wishlist->setId($id);
-        }
+        $this->expectException(\InvalidArgumentException::class);
+        self::$wishlist->setId(1234);
+    }
+
+    public function testSetIdInvalidEmpty()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        self::$wishlist->setId('');
+    }
+
+    public function testSetIdInvalidNull()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        self::$wishlist->setId(null);
     }
 
     public function testSetTldValid()
@@ -186,12 +139,22 @@ class AmazonWishlistTest extends BaseTest
         }
     }
 
-    public function testSetTldInvalid()
+    public function testSetTldInvalidString()
     {
-        foreach (self::$tldInvalid as $tld) {
-            $this->expectException(\InvalidArgumentException::class);
-            self::$wishlist->setTld($tld);
-        }
+        $this->expectException(\InvalidArgumentException::class);
+        self::$wishlist->setTld('not valid');
+    }
+
+    public function testSetTldInvalidNumber()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        self::$wishlist->setTld(1234);
+    }
+
+    public function testSetTldInvalidEmpty()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        self::$wishlist->setTld('');
     }
 
     public function testSetRevealValid()
@@ -201,12 +164,22 @@ class AmazonWishlistTest extends BaseTest
         }
     }
 
-    public function testSetRevealInvalid()
+    public function testSetRevealInvalidString()
     {
-        foreach (self::$revealInvalid as $reveal) {
-            $this->expectException(\InvalidArgumentException::class);
-            self::$wishlist->setReveal($reveal);
-        }
+        $this->expectException(\InvalidArgumentException::class);
+        self::$wishlist->setReveal('wishlist');
+    }
+
+    public function testSetRevealInvalidNumber()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        self::$wishlist->setReveal(1234);
+    }
+
+    public function testSetRevealInvalidEmpty()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        self::$wishlist->setReveal('');
     }
 
     public function testSetSortValid()
@@ -216,12 +189,22 @@ class AmazonWishlistTest extends BaseTest
         }
     }
 
-    public function testSetSortInvalid()
+    public function testSetSortInvalidNumber()
     {
-        foreach (self::$sortInvalid as $sort) {
-            $this->expectException(\InvalidArgumentException::class);
-            self::$wishlist->setSort($sort);
-        }
+        $this->expectException(\InvalidArgumentException::class);
+        self::$wishlist->setSort(1234);
+    }
+
+    public function testSetSortInvalidEmpty()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        self::$wishlist->setSort('');
+    }
+
+    public function testSetSortInvalidString()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        self::$wishlist->setSort('not valid');
     }
 
     public function testSetAffiliateTagValid()
@@ -231,12 +214,16 @@ class AmazonWishlistTest extends BaseTest
         }
     }
 
-    public function testSetAffiliateTagInvalid()
+    public function testSetAffiliateTagInvalidEmpty()
     {
-        foreach (self::$affiliateTagInvalid as $affiliateTag) {
-            $this->expectException(\InvalidArgumentException::class);
-            self::$wishlist->setAffiliateTag($affiliateTag);
-        }
+        $this->expectException(\InvalidArgumentException::class);
+        self::$wishlist->setAffiliateTag('');
+    }
+
+    public function testSetAffiliateTagInvalidNumber()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        self::$wishlist->setAffiliateTag(1234);
     }
 
     public function testGetArrayAmazonSource()
