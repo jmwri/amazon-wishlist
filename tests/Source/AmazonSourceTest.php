@@ -18,29 +18,14 @@ class AmazonSourceTest extends BaseTest
     protected static $basePathValid;
 
     /**
-     * @var mixed[]
-     */
-    protected static $basePathInvalid;
-
-    /**
      * @var string[]
      */
     protected static $idValid;
 
     /**
-     * @var mixed[]
-     */
-    protected static $idInvalid;
-
-    /**
      * @var string[]
      */
     protected static $tldValid;
-
-    /**
-     * @var mixed[]
-     */
-    protected static $tldInvalid;
 
     /**
      * @var AmazonSource
@@ -54,21 +39,9 @@ class AmazonSourceTest extends BaseTest
             'amazon.co.uk',
         ];
 
-        self::$basePathInvalid = [
-            1234,
-            '',
-            null,
-        ];
-
         self::$idValid = [
             '2EZ944B2S8C5Q',
             '7IS947A8S9H3E',
-        ];
-
-        self::$idInvalid = [
-            1234,
-            '',
-            null,
         ];
 
         self::$tldValid = [
@@ -84,14 +57,6 @@ class AmazonSourceTest extends BaseTest
             '.es',
         ];
 
-        self::$tldInvalid = [
-            '.com.au',
-            '.com.mx',
-            '.nl',
-            123,
-            '',
-        ];
-
         self::$source = new AmazonSource(self::$idValid[0], self::$tldValid[0]);
     }
 
@@ -102,12 +67,22 @@ class AmazonSourceTest extends BaseTest
         }
     }
 
-    public function testSetBasePathInvalid()
+    public function testSetBasePathInvalidNumber()
     {
-        foreach (self::$basePathInvalid as $path) {
-            $this->expectException(\InvalidArgumentException::class);
-            self::$source->setBasePath($path);
-        }
+        $this->expectException(\InvalidArgumentException::class);
+        self::$source->setBasePath(1234);
+    }
+
+    public function testSetBasePathInvalidEmpty()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        self::$source->setBasePath('');
+    }
+
+    public function testSetBasePathInvalidNull()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        self::$source->setBasePath(null);
     }
 
     public function testGetBasePath()
@@ -123,12 +98,22 @@ class AmazonSourceTest extends BaseTest
         }
     }
 
-    public function testSetIdInvalid()
+    public function testSetIdInvalidNumber()
     {
-        foreach (self::$idInvalid as $id) {
-            $this->expectException(\InvalidArgumentException::class);
-            self::$source->setId($id);
-        }
+        $this->expectException(\InvalidArgumentException::class);
+        self::$source->setId(1234);
+    }
+
+    public function testSetIdInvalidEmpty()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        self::$source->setId('');
+    }
+
+    public function testSetIdInvalidNull()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        self::$source->setId(null);
     }
 
     public function testSetTldValid()
@@ -138,12 +123,22 @@ class AmazonSourceTest extends BaseTest
         }
     }
 
-    public function testSetTldInvalid()
+    public function testSetTldInvalidString()
     {
-        foreach (self::$tldInvalid as $tld) {
-            $this->expectException(\InvalidArgumentException::class);
-            self::$source->setTld($tld);
-        }
+        $this->expectException(\InvalidArgumentException::class);
+        self::$source->setTld('not valid');
+    }
+
+    public function testSetTldInvalidNumber()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        self::$source->setTld(1234);
+    }
+
+    public function testSetTldInvalidEmpty()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        self::$source->setTld('');
     }
 
     public function testGetDocumentFile()

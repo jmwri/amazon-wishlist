@@ -18,19 +18,9 @@ class FileSourceTest extends BaseTest
     protected static $basePathValid;
 
     /**
-     * @var mixed[]
-     */
-    protected static $basePathInvalid;
-
-    /**
      * @var string[]
      */
     protected static $extensionValid;
-
-    /**
-     * @var mixed[]
-     */
-    protected static $extensionInvalid;
 
     /**
      * @var FileSource
@@ -44,19 +34,8 @@ class FileSourceTest extends BaseTest
             __DIR__ . '/html/basic'
         ];
 
-        self::$basePathInvalid = [
-            1234,
-            '',
-            null,
-        ];
-
         self::$extensionValid = [
             '.html',
-        ];
-
-        self::$extensionInvalid = [
-            123,
-            '',
         ];
 
         self::$source = new FileSource(self::$basePathValid[0], self::$extensionValid[0]);
@@ -69,12 +48,22 @@ class FileSourceTest extends BaseTest
         }
     }
 
-    public function testSetBasePathInvalid()
+    public function testSetBasePathInvalidNumber()
     {
-        foreach (self::$basePathInvalid as $path) {
-            $this->expectException(\InvalidArgumentException::class);
-            self::$source->setBasePath($path);
-        }
+        $this->expectException(\InvalidArgumentException::class);
+        self::$source->setBasePath(1234);
+    }
+
+    public function testSetBasePathInvalidEmpty()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        self::$source->setBasePath('');
+    }
+
+    public function testSetBasePathInvalidNull()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        self::$source->setBasePath(null);
     }
 
     public function testGetBasePath()
@@ -92,16 +81,33 @@ class FileSourceTest extends BaseTest
 
     public function testSetExtensionInvalid()
     {
-        foreach (self::$extensionInvalid as $extension) {
-            $this->expectException(\InvalidArgumentException::class);
-            self::$source->setExtension($extension);
-        }
+        $this->expectException(\InvalidArgumentException::class);
+        self::$source->setExtension('.xml');
+    }
+
+    public function testSetExtensionInvalidNumber()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        self::$source->setExtension(123);
+    }
+
+    public function testSetExtensionInvalidEmpty()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        self::$source->setExtension('');
     }
 
     public function testGetDocumentFile()
     {
         $documentFile = self::$source->getDocumentFile(__DIR__ . '/../html/basic.html');
         $this->assertEquals('<p>my basic html</p>', $documentFile->html());
+    }
+
+    public function testGetPathWithParams()
+    {
+        self::$source->setBasePath('test_path');
+        $url = self::$source->getPathWithParams([]);
+        $this->assertEquals('test_path.html', $url);
     }
 
 }
