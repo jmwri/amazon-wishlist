@@ -6,10 +6,10 @@ namespace JmWri\AmazonWishlist\Wishlist;
 use JmWri\AmazonWishlist\WishlistItem;
 
 /**
- * Class WishlistV2
+ * Class WishlistV1
  * @package JmWri\AmazonWishlist\Wishlist
  */
-class WishlistV2 extends BaseWishlist
+class WishlistV1 extends BaseWishlist
 {
 
     /**
