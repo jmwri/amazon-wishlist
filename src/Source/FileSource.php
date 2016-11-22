@@ -48,7 +48,7 @@ class FileSource extends BaseSource
     }
 
     /**
-     * @param $params
+     * @param array $params
      *
      * @return string
      */
@@ -58,8 +58,8 @@ class FileSource extends BaseSource
     }
 
     /**
-     * @param $url
-     * @param $params
+     * @param string $url
+     * @param array $params
      *
      * @return string
      */
