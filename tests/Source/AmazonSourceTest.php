@@ -1,9 +1,9 @@
 <?php
 
-namespace JmWri\AmazonWishlist\Test;
+namespace JmWri\AmazonWishlist\Test\Source;
 
-use JmWri\AmazonWishlist\AmazonWishlist;
 use JmWri\AmazonWishlist\Source\AmazonSource;
+use JmWri\AmazonWishlist\Test\BaseTest;
 
 /**
  * Class AmazonSourceTest
@@ -97,16 +97,16 @@ class AmazonSourceTest extends BaseTest
 
     public function testSetBasePathValid()
     {
-        foreach (self::$basePathValid as $id) {
-            $this->assertTrue(self::$source->setBasePath($id));
+        foreach (self::$basePathValid as $path) {
+            $this->assertTrue(self::$source->setBasePath($path));
         }
     }
 
     public function testSetBasePathInvalid()
     {
-        foreach (self::$basePathInvalid as $id) {
+        foreach (self::$basePathInvalid as $path) {
             $this->expectException(\InvalidArgumentException::class);
-            self::$source->setBasePath($id);
+            self::$source->setBasePath($path);
         }
     }
 
@@ -148,7 +148,7 @@ class AmazonSourceTest extends BaseTest
 
     public function testGetDocumentFile()
     {
-        $documentFile = self::$source->getDocumentFile(__DIR__ . '/html/basic.html');
+        $documentFile = self::$source->getDocumentFile(__DIR__ . '/../html/basic.html');
         $this->assertEquals('<p>my basic html</p>', $documentFile->html());
     }
 

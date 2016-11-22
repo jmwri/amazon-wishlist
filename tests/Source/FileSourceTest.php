@@ -1,8 +1,9 @@
 <?php
 
-namespace JmWri\AmazonWishlist\Test;
+namespace JmWri\AmazonWishlist\Test\Source;
 
 use JmWri\AmazonWishlist\Source\FileSource;
+use JmWri\AmazonWishlist\Test\BaseTest;
 
 /**
  * Class FileSourceTest
@@ -99,7 +100,7 @@ class FileSourceTest extends BaseTest
 
     public function testGetDocumentFile()
     {
-        $documentFile = self::$source->getDocumentFile(__DIR__ . '/html/basic.html');
+        $documentFile = self::$source->getDocumentFile(__DIR__ . '/../html/basic.html');
         $this->assertEquals('<p>my basic html</p>', $documentFile->html());
     }
 
