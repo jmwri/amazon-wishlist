@@ -103,7 +103,7 @@ class FileSourceTest extends BaseTest
         $this->assertEquals('<p>my basic html</p>', $documentFile->html());
     }
 
-    public function testGetPathWithParams()
+    public function testGetPathWithNoParams()
     {
         self::$source->setBasePath('test_path');
         $url = self::$source->getPathWithParams([]);
