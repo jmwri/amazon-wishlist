@@ -4,6 +4,7 @@ namespace JmWri\AmazonWishlist\Test;
 
 use JmWri\AmazonWishlist\AmazonWishlist;
 use JmWri\AmazonWishlist\Source\AmazonSource;
+use JmWri\AmazonWishlist\Source\FileSource;
 use JmWri\AmazonWishlist\WishlistItem;
 
 /**
@@ -238,7 +239,7 @@ class AmazonWishlistTest extends BaseTest
         }
     }
 
-    public function testGetArray()
+    public function testGetArrayAmazonSource()
     {
         $source = new AmazonSource('2EZ944B2S8C5Q');
         $wishlist = new AmazonWishlist($source);
@@ -247,9 +248,28 @@ class AmazonWishlistTest extends BaseTest
         $this->assertEquals(4, count($wishlistArray));
     }
 
-    public function testGetJson()
+    public function testGetJsonAmazonSource()
     {
         $source = new AmazonSource('2EZ944B2S8C5Q');
+        $wishlist = new AmazonWishlist($source);
+        $wishlistJson = $wishlist->getJson(true);
+        $wishlistArray = json_decode($wishlistJson, true);
+        $this->assertTrue(is_array($wishlistArray));
+        $this->assertEquals(4, count($wishlistArray));
+    }
+
+    public function testGetArrayFileSource()
+    {
+        $source = new FileSource(__DIR__ . '/html/wishlist_v2');
+        $wishlist = new AmazonWishlist($source);
+        $wishlistArray = $wishlist->getArray(true);
+        $this->assertTrue(is_array($wishlistArray));
+        $this->assertEquals(4, count($wishlistArray));
+    }
+
+    public function testGetJsonFileSource()
+    {
+        $source = new FileSource(__DIR__ . '/html/wishlist_v2');
         $wishlist = new AmazonWishlist($source);
         $wishlistJson = $wishlist->getJson(true);
         $wishlistArray = json_decode($wishlistJson, true);

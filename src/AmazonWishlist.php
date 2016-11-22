@@ -2,6 +2,7 @@
 
 namespace JmWri\AmazonWishlist;
 
+use JmWri\AmazonWishlist\Source\BaseSource;
 use JmWri\AmazonWishlist\Wishlist\WishlistV1;
 use JmWri\AmazonWishlist\Wishlist\WishlistV2;
 
@@ -38,7 +39,7 @@ class AmazonWishlist
     /**
      * AmazonWishlist constructor.
      *
-     * @param AmazonSource $source
+     * @param BaseSource $source
      * @param string $reveal
      * @param string $sort
      * @param null|string $affiliateTag
