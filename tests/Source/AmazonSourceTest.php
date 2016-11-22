@@ -147,4 +147,10 @@ class AmazonSourceTest extends BaseTest
         $this->assertEquals('<p>my basic html</p>', $documentFile->html());
     }
 
+    public function testGetPathWithNoParams()
+    {
+        $url = self::$source->getPathWithParams([]);
+        $this->assertEquals('test_path.es/registry/wishlist/7IS947A8S9H3E', $url);
+    }
+
 }
